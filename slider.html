@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+	<script type="text/javascript">
+
+
+	var slider = function(id){
+		var self = this;
+    var intialX;
+	var intialLeft;
+	var parentDiv;
+	var childDiv;
+
+		self.value = 0;
+ 
+     	parentDiv = document.createElement("div");
+		parentDiv.style = "background-color: red;margin-top:20px;position:relative;width:430px;height:20px;";
+
+		childDiv = document.createElement("div");
+		childDiv.style = "cursor:pointer;background-color: green;width:30px;height:25px;position:absolute;top:-3px;";
+    
+    	document.getElementById(id).appendChild(parentDiv);
+    	parentDiv.appendChild(childDiv);
+        
+       
+      
+
+     function mouseDown(e){ 
+        intialX = e.clientX;
+        intialLeft = childDiv.offsetLeft;
+        document.body.style.cursor = "pointer";
+      	window.addEventListener('mousemove',divDown,true);
+        window.addEventListener('mouseup',mouseUp,false);
+
+      }
+     function mouseUp(e){
+       var interval = 40;
+      	var scale = (e.clientX-intialX+intialLeft);
+
+    var a = Math.round(scale / 40);
+
+    if(((a * interval) < (parentDiv.offsetWidth-childDiv.offsetWidth)) &&((a * interval) > parentDiv.offsetLeft)  ) {
+    	childDiv.style.left = (a * interval)+'px';
+
+	}
+	if((a * interval) > (parentDiv.offsetWidth-childDiv.offsetWidth)){
+		a = 10;
+	}else if((a * interval) < parentDiv.offsetLeft){
+		a = 0;
+	}
+  self.value = a;
+      	window.removeEventListener('mousemove',divDown,true);
+      	window.removeEventListener('mouseup',mouseUp,false);
+        document.body.style.cursor = "default";
+      }
+
+
+	 function divDown(e){
+
+	var scale = (e.clientX-intialX+intialLeft);
+    childDiv.style.position = 'absolute';
+      
+     
+    
+        if(scale < parentDiv.offsetLeft){
+
+        	scale = 0;
+     
+    }else if(scale > (parentDiv.offsetWidth-childDiv.offsetWidth)){
+           scale = parentDiv.offsetWidth-childDiv.offsetWidth;
+    }
+
+
+    
+    childDiv.style.left = scale +'px';
+     
+
+	}
+	childDiv.addEventListener('mousedown',mouseDown ,false);
+         
+}
+
+	window.onload = function(){
+      s1 = new slider("slidebar1");
+      var s2 = new slider("slidebar2");
+      var s3 = new slider("slidebar3");
+      var s4 = new slider("slidebar4");
+       
+
+	};
+	</script>
+</head>
+<body>
+<div id="slidebar1" style="position:absolute;left:300px;"></div>
+<div id="slidebar2" style="position:absolute;left:300px;top:150px;"></div>
+<div id="slidebar3" style="position:absolute;left:300px;top:300px;"></div>
+<div id="slidebar4" style="position:absolute;left:300px;top:450px;"></div>
+
+</body>
+</html>
